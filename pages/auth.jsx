@@ -1,9 +1,11 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaRegEnvelope } from "react-icons/fa";
 import { IoPersonOutline } from "react-icons/io5";
 import { MdLockOutline } from "react-icons/md";
 import { useToast } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useUser } from "../context/user";
 
 const initialInputValues = {
   email: "",
@@ -13,15 +15,46 @@ const initialInputValues = {
 };
 
 function Auth() {
+  const router = useRouter();
+  const { user, setUser, setUserToLocalStorage } = useUser();
+
+  useEffect(() => {
+    if (user) {
+      console.log(user);
+      router.push("/home");
+    }
+  });
+
   const toast = useToast();
+
+  const storeCurrentLoggedInUser = (user) => {
+    setUser(user);
+    setUserToLocalStorage(user);
+  };
 
   const showToast = (message, isSuccessful) => {
     toast({
       title: message,
       status: isSuccessful ? "success" : "error",
-      duration: 9000,
+      duration: 6000,
       isClosable: true,
     });
+  };
+
+  const loginUser = async (e) => {
+    e.preventDefault();
+    await axios
+      .post("api/login-user", {
+        email: values.email,
+        password: values.password,
+      })
+      .then((res) => {
+        storeCurrentLoggedInUser(res.data.user);
+        showToast(res.data.message, true);
+      })
+      .catch((err) => {
+        showToast(err.response.data.message, false);
+      });
   };
 
   const createNewUser = async (e) => {
@@ -36,6 +69,7 @@ function Auth() {
       .then((res) => {
         // handle success
         console.log(res);
+        storeCurrentLoggedInUser(res.data.user);
         showToast(res.data.message, true);
       })
       .catch((err) => {
@@ -95,7 +129,7 @@ function Auth() {
                 </div>
               </div>
               <button
-                onClick={() => console.log(values)}
+                onClick={loginUser}
                 className="mt-5 border-2 border-blue-500 max-w-[500px] rounded px-12 py-2 text-blue-500 font-semibold hover:bg-blue-500 hover:text-white duration-500"
               >
                 Login

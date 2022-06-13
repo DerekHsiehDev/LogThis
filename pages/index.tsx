@@ -7,7 +7,7 @@ import { MdLockOutline } from "react-icons/md";
 import { useState, useEffect } from "react";
 
 const Home: NextPage = () => {
-  return <div>Home page</div>;
+  return <div>Landing page</div>;
 };
 
 export default Home;
