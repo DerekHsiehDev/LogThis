@@ -4,7 +4,8 @@ const UserContext = createContext();
 
 export function UserProvider({ children }) {
   const [user, setUser] = useState(null);
-  const setUserToLocalStorage = (user) => {
+  const setUserStateAndLocalStorage = (user) => {
+    setUser(user);
     localStorage.setItem("user", JSON.stringify(user));
   };
 
@@ -13,14 +14,10 @@ export function UserProvider({ children }) {
     setUser(data);
   }, []);
 
-  useEffect(() => {
-    setUserToLocalStorage(user);
-  }, [user]);
-
   const exposed = {
     setUser,
     user,
-    setUserToLocalStorage,
+    setUserStateAndLocalStorage,
   };
 
   return (

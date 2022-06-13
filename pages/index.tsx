@@ -4,10 +4,16 @@ import Image from "next/image";
 import { FaRegEnvelope } from "react-icons/fa";
 import { IoPersonOutline } from "react-icons/io5";
 import { MdLockOutline } from "react-icons/md";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
+import HomeView from "../components/HomeView";
+import { useRouter } from "next/router";
+import { useUser } from "../context/user";
 
 const Home: NextPage = () => {
-  return <div>Landing page</div>;
+  const { user, setUser } = useUser();
+  const router = useRouter();
+
+  return user ? <HomeView /> : <div>landing view</div>;
 };
 
 export default Home;

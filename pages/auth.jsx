@@ -16,21 +16,25 @@ const initialInputValues = {
 
 function Auth() {
   const router = useRouter();
-  const { user, setUser, setUserToLocalStorage } = useUser();
+  const { user, setUser, setUserStateAndLocalStorage } = useUser();
 
   useEffect(() => {
-    if (user) {
-      console.log(user);
-      router.push("/home");
+    console.log(`USER IS ${user}`);
+    if (user === null) {
+    } else {
+      router.push("/");
     }
-  });
+  }, []);
+
+  // useEffect(() => {
+  //   console.log(`USER IS ${user}`);
+  //   if (user === null) {
+  //   } else {
+  //     router.push("/");
+  //   }
+  // }, [user]);
 
   const toast = useToast();
-
-  const storeCurrentLoggedInUser = (user) => {
-    setUser(user);
-    setUserToLocalStorage(user);
-  };
 
   const showToast = (message, isSuccessful) => {
     toast({
@@ -49,7 +53,8 @@ function Auth() {
         password: values.password,
       })
       .then((res) => {
-        storeCurrentLoggedInUser(res.data.user);
+        setUserStateAndLocalStorage(res.data.user);
+        router.push("/");
         showToast(res.data.message, true);
       })
       .catch((err) => {
@@ -69,7 +74,8 @@ function Auth() {
       .then((res) => {
         // handle success
         console.log(res);
-        storeCurrentLoggedInUser(res.data.user);
+        setUserStateAndLocalStorage(res.data.user);
+        router.push("/");
         showToast(res.data.message, true);
       })
       .catch((err) => {

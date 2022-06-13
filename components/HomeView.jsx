@@ -4,8 +4,8 @@ import { useUser } from "../context/user";
 import { Button } from "@chakra-ui/react";
 // import { Button } from "chakra-ui/react";
 
-function Home() {
-  const { user, setUserStateAndLocalStorage } = useUser();
+function HomeView() {
+  const { user, setUser, setUserStateAndLocalStorage } = useUser();
   const router = useRouter();
 
   useEffect(() => {
@@ -19,6 +19,7 @@ function Home() {
     <div>
       <Button
         onClick={() => {
+          setUser(null);
           setUserStateAndLocalStorage(null);
           console.log(user);
           router.push("/");
@@ -30,4 +31,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default HomeView;
