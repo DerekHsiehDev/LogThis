@@ -11,7 +11,8 @@ export function UserProvider({ children }) {
 
   useEffect(() => {
     const data = localStorage.getItem("user");
-    setUser(data);
+    const userData = JSON.parse(data);
+    setUser(userData);
   }, []);
 
   const exposed = {

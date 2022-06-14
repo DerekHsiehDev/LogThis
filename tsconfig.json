@@ -19,7 +19,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "pages/api/create-user.js"
+    "pages/api/create-user.js",
+    "components/HomeView.jsx"
   ],
   "exclude": ["node_modules"]
 }
