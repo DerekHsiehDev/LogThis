@@ -10,8 +10,11 @@ import {
   Badge,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { usePage } from "../../../context/page";
 
-export default function PieceCard() {
+export default function PieceCard({ piece }) {
+  const { setPage } = usePage();
+
   return (
     <Center py={6}>
       <Box
@@ -21,36 +24,31 @@ export default function PieceCard() {
         boxShadow={"2xl"}
         rounded={"lg"}
         p={8}
+        px={10}
         textAlign={"center"}
-        px={20}
+        // px={"20"}
       >
         <Heading fontSize={"2xl"} fontFamily={"body"}>
-          Ballade No. 4
+          {piece.title}
         </Heading>
         <Text fontWeight={600} color={"gray.500"} mb={4}>
-          Frederic Chopin
+          {piece.composer}
         </Text>
         <Heading fontSize={"xl"} fontFamily={"body"} color="purple.300">
-          40 hours
+          {piece.minutesPracticed === undefined ? 0 : piece.minutesPracticed}{" "}
+          minutes practiced
         </Heading>
-
         <Stack align={"center"} justify={"center"} direction={"row"} mt={6}>
-          <Badge
-            px={2}
-            py={1}
-            bg={useColorModeValue("gray.50", "gray.800")}
-            fontWeight={"400"}
-          >
-            #Romantic
-          </Badge>
-          <Badge
-            px={2}
-            py={1}
-            bg={useColorModeValue("gray.50", "gray.800")}
-            fontWeight={"400"}
-          >
-            #Etude
-          </Badge>
+          {piece.tags.map((tag) => (
+            <Badge
+              px={2}
+              // py={1}
+              bg={useColorModeValue("gray.50", "gray.800")}
+              fontWeight={"400"}
+            >
+              {"#" + tag}
+            </Badge>
+          ))}
         </Stack>
 
         <Stack mt={8} direction={"row"} spacing={4}>
@@ -60,6 +58,7 @@ export default function PieceCard() {
             rounded={"full"}
             bg={"green.300"}
             color="white"
+            onClick={() => setPage("Practice")}
           >
             Add Hours
           </Button>

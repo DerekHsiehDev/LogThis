@@ -152,8 +152,8 @@ const NavItem = ({ icon, children, ...rest }) => {
         mx="4"
         borderRadius="lg"
         role="group"
-        bg={name === page && "blue.500"}
-        color={name === page && "white"}
+        bg={children === page && "blue.500"}
+        color={children === page && "white"}
         cursor="pointer"
         transition="0.3s ease"
         _hover={{
