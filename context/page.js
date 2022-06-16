@@ -3,7 +3,7 @@ import { createContext, useState, useContext, useEffect } from "react";
 const PageContext = createContext();
 
 export function PageProvider({ children }) {
-  const [page, setPage] = useState("Repertoire");
+  const [page, setPage] = useState("Practice");
 
   //   useEffect(() => {
   //     setPage("Log");

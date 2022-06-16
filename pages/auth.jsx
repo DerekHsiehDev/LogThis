@@ -6,6 +6,8 @@ import { MdLockOutline } from "react-icons/md";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useUser } from "../context/user";
+import { NextResponse, NextRequest } from "next/server";
+import { isObject } from "util";
 
 const initialInputValues = {
   email: "",
@@ -19,10 +21,11 @@ function Auth() {
   const { user, setUser, setUserStateAndLocalStorage } = useUser();
 
   useEffect(() => {
-    console.log(`USER IS ${user}`);
-    if (user === null) {
-    } else {
-      router.push("/");
+    // set timeout for 0.25 seconds
+    const signedInUser = localStorage.getItem("user");
+    console.log(signedInUser);
+    if (signedInUser) {
+      // router.push("/");
     }
   }, []);
 

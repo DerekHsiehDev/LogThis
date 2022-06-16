@@ -1,7 +1,10 @@
 import React, { ReactNode, useState, useEffect } from "react";
+import PracticeView from "./views/Practice/PracticeView";
 import { useUser } from "../context/user";
 import RepView from "./views/Rep/RepView";
 import { usePage } from "../context/page";
+import { RepProvider } from "../context/rep";
+import { LogProvider } from "../context/log";
 
 import {
   useToast,
@@ -42,12 +45,8 @@ import {
 import { IoIosMusicalNotes } from "react-icons/io";
 import { MdClass } from "react-icons/md";
 import { GiPianoKeys } from "react-icons/gi";
-import { IconType } from "react-icons";
-import { ReactText } from "react";
-import { userInfo } from "os";
 
 const LinkItems = [
-  { name: "Log", icon: FiHome },
   { name: "Practice", icon: GiPianoKeys },
   { name: "Repertoire", icon: IoIosMusicalNotes },
   { name: "Classroom", icon: MdClass },
@@ -61,10 +60,8 @@ export default function SidebarWithHeader({ children }) {
 
   const dynamicPageSwitch = () => {
     switch (page) {
-      case "Log":
-        return <Text>Log</Text>;
       case "Practice":
-        return <Text>Practice</Text>;
+        return <PracticeView />;
       case "Repertoire":
         return <RepView />;
       case "Classroom":
@@ -75,30 +72,34 @@ export default function SidebarWithHeader({ children }) {
   };
 
   return (
-    <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
-      <SidebarContent
-        onClose={() => onClose}
-        display={{ base: "none", md: "block" }}
-      />
-      <Drawer
-        autoFocus={false}
-        isOpen={isOpen}
-        placement="left"
-        onClose={onClose}
-        returnFocusOnClose={false}
-        onOverlayClick={onClose}
-        size="full"
-      >
-        <DrawerContent>
-          <SidebarContent onClose={onClose} />
-        </DrawerContent>
-      </Drawer>
-      {/* mobilenav */}
-      <MobileNav onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
-        {dynamicPageSwitch()}
+    <LogProvider>
+      <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
+        <SidebarContent
+          onClose={() => onClose}
+          display={{ base: "none", md: "block" }}
+        />
+        <Drawer
+          autoFocus={false}
+          isOpen={isOpen}
+          placement="left"
+          onClose={onClose}
+          returnFocusOnClose={false}
+          onOverlayClick={onClose}
+          size="full"
+        >
+          <DrawerContent>
+            <SidebarContent onClose={onClose} />
+          </DrawerContent>
+        </Drawer>
+        {/* mobilenav */}
+        <MobileNav onOpen={onOpen} />
+        <RepProvider>
+          <Box ml={{ base: 0, md: 60 }} p="4">
+            {dynamicPageSwitch()}
+          </Box>
+        </RepProvider>
       </Box>
-    </Box>
+    </LogProvider>
   );
 }
 

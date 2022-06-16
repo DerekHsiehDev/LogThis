@@ -41,6 +41,7 @@ export default function PieceCard({ piece }) {
         <Stack align={"center"} justify={"center"} direction={"row"} mt={6}>
           {piece.tags.map((tag) => (
             <Badge
+              key={tag}
               px={2}
               // py={1}
               bg={useColorModeValue("gray.50", "gray.800")}
