@@ -1,36 +1,27 @@
 import axios from "axios";
 export default async function handler(req, res) {
-  const { userID, minutes, piece, notes, id } = req.body;
+  const classroomID = req.query.classroomID;
 
   const headers = {
     "Content-Type": "application/json",
     "api-key": process.env.API_KEY,
   };
-
-  // post to
-  const url = "https://mt22-server.herokuapp.com/api/log/practice";
-  // const url = "http://localhost:3000/api/log/practice";
-  console.log(req.body);
-  if (userID === "" || userID === undefined) {
+  if (classroomID === "") {
     // res status error
     res.status(400).json({ message: "Missing required fields" });
     return;
   }
 
+  // post to
+  // const url = `https://mt22-server.herokuapp.com/api/log/get-my-log?studentID=${userID}`;
+  const url = `https://mt22-server.herokuapp.com/api/classrooms/get-classroom?classroomID=${classroomID}`;
+  //   const url =
+  // "http://localhost:3001/api/get-classroom-data?classroomID=A7p62uZ";
+
   await axios
-    .post(
-      url,
-      {
-        studentID: userID,
-        minutes: minutes,
-        piece: piece,
-        notes: notes,
-        id: id,
-      },
-      {
-        headers: headers,
-      }
-    )
+    .get(url, {
+      headers: headers,
+    })
     .then((data) => {
       res.status(200).json({ message: data.data.message });
       return;
@@ -39,17 +30,19 @@ export default async function handler(req, res) {
       console.log(error);
       if (error.response) {
         // Request made and server responded
-        res.status(500).json({ message: error.response.data.message });
+        res
+          .status(error.response.status)
+          .json({ message: error.response.data.message });
         return;
       } else if (error.request) {
         // The request was made but no response was received
+        res.status(error.response.status).json({ message: "unexpected error" });
         console.log(error.request);
-        res.status(400).json({ message: error.response.data.message });
         return;
       } else {
         // Something happened in setting up the request that triggered an Error
 
-        res.status(400).json({ message: error.message });
+        res.status(error.response.status).json({ message: "unexpected error" });
         return;
       }
     });

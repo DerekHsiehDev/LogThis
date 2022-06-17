@@ -5,6 +5,7 @@ import RepView from "./views/Rep/RepView";
 import { usePage } from "../context/page";
 import { RepProvider } from "../context/rep";
 import { LogProvider } from "../context/log";
+import ClassroomView from "./views/Classroom/ClassroomView";
 
 import {
   useToast,
@@ -50,7 +51,6 @@ const LinkItems = [
   { name: "Practice", icon: GiPianoKeys },
   { name: "Repertoire", icon: IoIosMusicalNotes },
   { name: "Classroom", icon: MdClass },
-  { name: "Settings", icon: FiSettings },
 ];
 
 export default function SidebarWithHeader({ children }) {
@@ -65,7 +65,7 @@ export default function SidebarWithHeader({ children }) {
       case "Repertoire":
         return <RepView />;
       case "Classroom":
-        return <Text>Classroom</Text>;
+        return <ClassroomView />;
       case "Settings":
         return <Text>Settings</Text>;
     }

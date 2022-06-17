@@ -70,10 +70,16 @@ const NewLogDrawer = ({ isOpen, firstField, onClose }) => {
       setLog([...log, newLog]);
       setValues(practiceLogValues);
       const userID = user._id;
+      console.log(values, id, userID);
 
-      axios.post("/api/upload-log", { ...values, id, userID }).then((res) => {
-        showToast(res.data.message, true);
-      });
+      axios
+        .post("/api/upload-log", { ...values, id, userID })
+        .then((res) => {
+          showToast(res.data.message, true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
       // save on server
       onClose();
