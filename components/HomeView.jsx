@@ -203,6 +203,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
       borderBottomColor={useColorModeValue("gray.200", "gray.700")}
       justifyContent={{ base: "space-between", md: "flex-end" }}
       {...rest}
+      position={"static"}
     >
       <IconButton
         display={{ base: "flex", md: "none" }}
