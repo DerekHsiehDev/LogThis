@@ -14,6 +14,16 @@ import { PageProvider } from "../context/page";
 const Home: NextPage = () => {
   const { user, setUser } = useUser();
   const router = useRouter();
+  useEffect(() => {
+    console.log(user);
+    // javascript delay
+    setTimeout(() => {
+      if (user) {
+      } else {
+        window.location.replace("https://mt-landing-tau.vercel.app");
+      }
+    });
+  });
 
   return user ? (
     <PageProvider>

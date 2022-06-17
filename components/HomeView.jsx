@@ -264,8 +264,9 @@ const MobileNav = ({ onOpen, ...rest }) => {
               </Center>
               <MenuItem
                 onClick={() => {
-                  setUserStateAndLocalStorage(null);
-                  showToast();
+                  // setUserStateAndLocalStorage(null);
+                  window.location.replace("https://mt-landing-tau.vercel.app");
+                  // showToast();
                 }}
                 color={"red.500"}
               >
