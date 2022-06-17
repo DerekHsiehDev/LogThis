@@ -6,10 +6,12 @@ function LandingPage() {
   const { user, loading } = useUser();
   useEffect(() => {
     setTimeout(() => {
-      if (user === null && loading === false) {
+      console.log(user);
+
+      if (user === null && loading === false && !user._id) {
         window.location.replace("https://mt-landing-tau.vercel.app");
       }
-    }, 1000);
+    }, 3000);
   });
   return (
     <Center>

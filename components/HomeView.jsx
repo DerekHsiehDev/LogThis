@@ -95,7 +95,7 @@ export default function SidebarWithHeader({ children }) {
         <MobileNav onOpen={onOpen} />
         <RepProvider>
           <Box ml={{ base: 0, md: 60 }} p="4">
-            {dynamicPageSwitch()}
+            <Flex mt={"100"}>{dynamicPageSwitch()}</Flex>
           </Box>
         </RepProvider>
       </Box>
@@ -111,7 +111,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
       bg={useColorModeValue("white", "gray.900")}
       borderRight="1px"
       borderRightColor={useColorModeValue("gray.200", "gray.700")}
-      w={{ base: "full", md: 60 }}
+      w={{ base: "full", md: "60" }}
       pos="fixed"
       h="full"
       {...rest}
@@ -194,7 +194,23 @@ const MobileNav = ({ onOpen, ...rest }) => {
 
   return (
     <Flex
+      // as="header"
+      // position="fixed"
+      // zIndex={1}
+      // // w={{ base: "full", lg: "%" }}
+      // w={"full"}
+      // ml={{ base: 0, md: 60 }}
+      // px={{ base: 4, md: 4 }}
+      // height="20"
+      // alignItems="center"
+      // bg={useColorModeValue("white", "gray.900")}
+      // borderBottomWidth="1px"
+      // borderBottomColor={useColorModeValue("gray.200", "gray.700")}
+      // justifyContent={{ base: "space-between", md: "flex-end" }}
+      // {...rest}
       ml={{ base: 0, md: 60 }}
+      position={{ base: "fixed", md: "static" }}
+      minW={{ base: "full", md: "0" }}
       px={{ base: 4, md: 4 }}
       height="20"
       alignItems="center"
@@ -203,7 +219,6 @@ const MobileNav = ({ onOpen, ...rest }) => {
       borderBottomColor={useColorModeValue("gray.200", "gray.700")}
       justifyContent={{ base: "space-between", md: "flex-end" }}
       {...rest}
-      position={"static"}
     >
       <IconButton
         display={{ base: "flex", md: "none" }}
