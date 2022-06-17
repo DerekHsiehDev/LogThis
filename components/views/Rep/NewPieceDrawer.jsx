@@ -137,7 +137,7 @@ const NewPieceDrawer = ({ isOpen, firstField, onClose, setPieces, pieces }) => {
               Cancel
             </Button>
             <Spacer />
-            <Button onClick={() => uploadNewPiece()} colorScheme="blue">
+            <Button onClick={() => uploadNewPiece()} colorScheme="red">
               Add
             </Button>
           </Flex>

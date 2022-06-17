@@ -6,9 +6,7 @@ function LandingPage() {
   const { user, loading } = useUser();
   useEffect(() => {
     setTimeout(() => {
-      console.log(user);
-
-      if (user === null && loading === false && !user._id) {
+      if (user === null && loading === false) {
         window.location.replace("https://mt-landing-tau.vercel.app");
       }
     }, 3000);

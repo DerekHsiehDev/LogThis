@@ -95,7 +95,7 @@ export default function SidebarWithHeader({ children }) {
         <MobileNav onOpen={onOpen} />
         <RepProvider>
           <Box ml={{ base: 0, md: 60 }} p="4">
-            <Flex mt={"100"}>{dynamicPageSwitch()}</Flex>
+            <Box mt={{ base: "100", md: "0" }}>{dynamicPageSwitch()}</Box>
           </Box>
         </RepProvider>
       </Box>

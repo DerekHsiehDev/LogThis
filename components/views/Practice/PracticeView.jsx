@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import NewLogDrawer from "./NewLogDrawer";
+import { useRep } from "../../../context/rep";
 
 import { MdLibraryAdd } from "react-icons/md";
 import { GiConsoleController } from "react-icons/gi";
@@ -25,8 +26,10 @@ import { useLog } from "../../../context/log";
 const PracticeView = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user } = useUser();
+  const { rep } = useRep();
+
   const { log } = useLog();
-  console.log(log);
+  console.log(rep);
 
   return (
     <>

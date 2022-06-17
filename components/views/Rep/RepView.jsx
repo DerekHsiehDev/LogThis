@@ -18,7 +18,7 @@ import NewPieceDrawer from "./NewPieceDrawer";
 import axios from "axios";
 import { useRep } from "../../../context/rep";
 
-import { MdLibraryAdd } from "react-icons/md";
+import { BiBookAdd } from "react-icons/bi";
 import { GiConsoleController } from "react-icons/gi";
 
 const RepView = () => {
@@ -67,7 +67,7 @@ const RepView = () => {
       />
       <IconButton
         m={5}
-        colorScheme="blue"
+        colorScheme="red"
         p={5}
         position="fixed"
         bottom="10px"
@@ -78,7 +78,7 @@ const RepView = () => {
         size="xl"
         fontSize="20px"
         borderRadius={"full"}
-        icon={<MdLibraryAdd size={"30px"} />}
+        icon={<BiBookAdd size={"30px"} />}
         onClick={onOpen}
       ></IconButton>
     </>
