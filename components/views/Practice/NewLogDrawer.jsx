@@ -19,7 +19,15 @@ import {
   Text,
   NumberInput,
   NumberInputField,
+  Modal,
+  useDisclosure,
   NumberInputStepper,
+  ModalBody,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalFooter,
   NumberIncrementStepper,
   NumberDecrementStepper,
   Container,
@@ -28,6 +36,7 @@ import {
   Box,
   useToast,
 } from "@chakra-ui/react";
+import { usePage } from "../../../context/page";
 import axios from "axios";
 import { useUser } from "../../../context/user";
 import {
@@ -47,12 +56,25 @@ const practiceLogValues = {
 };
 
 const NewLogDrawer = ({ isOpen, firstField, onClose }) => {
+  const { setPage } = usePage();
   const toast = useToast();
   const [values, setValues] = useState(practiceLogValues);
   const { user } = useUser();
   const { rep } = useRep();
   const { setLog, log } = useLog();
   const countries = rep.map((rep) => rep.title);
+  const {
+    isOpen: isOpenModal,
+    onOpen: onOpenModal,
+    onClose: OnCloseModal,
+  } = useDisclosure();
+
+  useEffect(() => {
+    console.log(isOpen);
+    if (rep.length === 0 && isOpen === true) {
+      onOpenModal();
+    }
+  }, [isOpen]);
 
   const handleAdd = () => {
     // check if minutes is greater than 0
@@ -97,38 +119,39 @@ const NewLogDrawer = ({ isOpen, firstField, onClose }) => {
   };
 
   return (
-    <Drawer
-      isOpen={isOpen}
-      placement="right"
-      initialFocusRef={firstField}
-      size={"md"}
-      onClose={onClose}
-    >
-      <DrawerOverlay />
-      <DrawerContent>
-        <DrawerCloseButton />
-        <DrawerHeader borderBottomWidth="1px">
-          Add a new Practice Log
-        </DrawerHeader>
+    <>
+      <Drawer
+        isOpen={isOpen}
+        placement="right"
+        initialFocusRef={firstField}
+        size={"md"}
+        onClose={onClose}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader borderBottomWidth="1px">
+            Add a new Practice Log
+          </DrawerHeader>
 
-        <DrawerBody>
-          <Stack spacing="24px">
-            <Box>
-              <FormLabel htmlFor="minutes">
-                How many minutes did you practice?
-              </FormLabel>
-              <NumberInput step={5}>
-                <NumberInputField
-                  onChange={(e) => {
-                    setValues({ ...values, minutes: e.target.value });
-                  }}
-                />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
-              {/* <Input
+          <DrawerBody>
+            <Stack spacing="24px">
+              <Box>
+                <FormLabel htmlFor="minutes">
+                  How many minutes did you practice?
+                </FormLabel>
+                <NumberInput step={5}>
+                  <NumberInputField
+                    onChange={(e) => {
+                      setValues({ ...values, minutes: e.target.value });
+                    }}
+                  />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+                {/* <Input
                 onChange={(e) =>
                   setValues({ ...values, title: e.target.value })
                 }
@@ -136,69 +159,92 @@ const NewLogDrawer = ({ isOpen, firstField, onClose }) => {
                 id="title"
                 placeholder="Please enter an amount"
               /> */}
-            </Box>
-            <Box>
-              <FormLabel htmlFor="piece">
-                Which piece did you practice? (Optional)
-              </FormLabel>
-              <AutoComplete openOnFocus>
-                <AutoCompleteInput
-                  id={"autocomplete"}
-                  placeholder={"Search for a piece"}
-                  variant="outline"
-                  onBlur={(e) => {
-                    var delayInMilliseconds = 500; //0.5 second
+              </Box>
+              <Box>
+                <FormLabel htmlFor="piece">
+                  Which piece did you practice? (Optional)
+                </FormLabel>
+                <AutoComplete openOnFocus>
+                  <AutoCompleteInput
+                    id={"autocomplete"}
+                    placeholder={"Search for a piece"}
+                    variant="outline"
+                    onBlur={(e) => {
+                      var delayInMilliseconds = 500; //0.5 second
 
-                    setTimeout(function () {
-                      const piece = document.getElementById("autocomplete");
-                      setValues({ ...values, piece: piece.value });
-                    }, delayInMilliseconds);
-                  }}
+                      setTimeout(function () {
+                        const piece = document.getElementById("autocomplete");
+                        setValues({ ...values, piece: piece.value });
+                      }, delayInMilliseconds);
+                    }}
 
-                  //   onEnded={(e) => {
-                  //     console.log(e.target.value);
-                  //     setValues({ ...values, piece: e.target.value });
-                  //   }}
+                    //   onEnded={(e) => {
+                    //     console.log(e.target.value);
+                    //     setValues({ ...values, piece: e.target.value });
+                    //   }}
+                  />
+                  <AutoCompleteList>
+                    {countries.map((country, cid) => (
+                      <AutoCompleteItem
+                        key={`option-${cid}`}
+                        value={country}
+                        textTransform="capitalize"
+                      >
+                        {country}
+                      </AutoCompleteItem>
+                    ))}
+                  </AutoCompleteList>
+                </AutoComplete>
+              </Box>
+
+              <Box>
+                <FormLabel htmlFor="desc">Notes (Optional)</FormLabel>
+                <Textarea
+                  onChange={(e) =>
+                    setValues({ ...values, notes: e.target.value })
+                  }
+                  id="desc"
                 />
-                <AutoCompleteList>
-                  {countries.map((country, cid) => (
-                    <AutoCompleteItem
-                      key={`option-${cid}`}
-                      value={country}
-                      textTransform="capitalize"
-                    >
-                      {country}
-                    </AutoCompleteItem>
-                  ))}
-                </AutoCompleteList>
-              </AutoComplete>
-            </Box>
+              </Box>
+            </Stack>
+          </DrawerBody>
 
-            <Box>
-              <FormLabel htmlFor="desc">Notes (Optional)</FormLabel>
-              <Textarea
-                onChange={(e) =>
-                  setValues({ ...values, notes: e.target.value })
-                }
-                id="desc"
-              />
-            </Box>
-          </Stack>
-        </DrawerBody>
-
-        <DrawerFooter borderTopWidth="1px">
-          <Flex>
-            <Button variant="outline" mr={3} onClick={onClose}>
-              Cancel
+          <DrawerFooter borderTopWidth="1px">
+            <Flex>
+              <Button variant="outline" mr={3} onClick={onClose}>
+                Cancel
+              </Button>
+              <Spacer />
+              <Button onClick={() => handleAdd()} colorScheme="blue">
+                Add
+              </Button>
+            </Flex>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+      <Modal onClose={OnCloseModal} isOpen={isOpenModal} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>No Pieces in Repertoire List</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            Would You like to add a piece to your repertoire first?
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={() => setPage("Repertoire")}
+            >
+              Yes
             </Button>
-            <Spacer />
-            <Button onClick={() => handleAdd()} colorScheme="blue">
-              Add
+            <Button colorScheme="red" onClick={OnCloseModal}>
+              Close
             </Button>
-          </Flex>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
   );
 };
 
