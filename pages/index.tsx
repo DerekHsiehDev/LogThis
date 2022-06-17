@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import LandingPage from "../components/LandingPage";
 import Head from "next/head";
 import Image from "next/image";
 import { FaRegEnvelope } from "react-icons/fa";
@@ -14,23 +15,13 @@ import { PageProvider } from "../context/page";
 const Home: NextPage = () => {
   const { user, setUser } = useUser();
   const router = useRouter();
-  useEffect(() => {
-    console.log(user);
-    // javascript delay
-    setTimeout(() => {
-      if (user) {
-      } else {
-        window.location.replace("https://mt-landing-tau.vercel.app");
-      }
-    }, 500);
-  });
 
   return user ? (
     <PageProvider>
       <HomeView>{}</HomeView>
     </PageProvider>
   ) : (
-    <Spinner />
+    <LandingPage />
   );
 };
 
