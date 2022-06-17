@@ -8,7 +8,7 @@ import { useState, useEffect, useLayoutEffect } from "react";
 import HomeView from "../components/HomeView";
 import { useRouter } from "next/router";
 import { useUser } from "../context/user";
-import { Flex } from "@chakra-ui/react";
+import { Flex, Spinner } from "@chakra-ui/react";
 import { PageProvider } from "../context/page";
 
 const Home: NextPage = () => {
@@ -22,7 +22,7 @@ const Home: NextPage = () => {
       } else {
         window.location.replace("https://mt-landing-tau.vercel.app");
       }
-    });
+    }, 500);
   });
 
   return user ? (
@@ -30,7 +30,7 @@ const Home: NextPage = () => {
       <HomeView>{}</HomeView>
     </PageProvider>
   ) : (
-    <div>landing view</div>
+    <Spinner />
   );
 };
 
