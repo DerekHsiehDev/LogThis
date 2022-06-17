@@ -196,7 +196,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
     <Flex
       // as="header"
       // position="fixed"
-      // zIndex={1}
+      zIndex={1}
       // // w={{ base: "full", lg: "%" }}
       // w={"full"}
       // ml={{ base: 0, md: 60 }}
@@ -208,6 +208,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
       // borderBottomColor={useColorModeValue("gray.200", "gray.700")}
       // justifyContent={{ base: "space-between", md: "flex-end" }}
       // {...rest}
+
       ml={{ base: 0, md: 60 }}
       position={{ base: "fixed", md: "static" }}
       minW={{ base: "full", md: "0" }}
