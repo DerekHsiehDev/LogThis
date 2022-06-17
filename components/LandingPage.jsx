@@ -3,10 +3,10 @@ import { useUser } from "../context/user";
 import { Center, Spinner } from "@chakra-ui/react";
 
 function LandingPage() {
-  const { user } = useUser();
+  const { user, loading } = useUser();
   useEffect(() => {
     setTimeout(() => {
-      if (user === null) {
+      if (user === null && loading === true) {
         window.location.replace("https://mt-landing-tau.vercel.app");
       }
     }, 1000);
