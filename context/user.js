@@ -10,11 +10,16 @@ export function UserProvider({ children }) {
     localStorage.setItem("user", JSON.stringify(user));
   };
 
-  useEffect(() => {
+  const getUserFromLocalStorage = () => {
     const data = localStorage.getItem("user");
     const userData = JSON.parse(data);
     setUser(userData);
+    console.log("Finished setting user data");
     setLoading(false);
+  };
+
+  useEffect(() => {
+    getUserFromLocalStorage();
   }, []);
 
   const exposed = {
@@ -22,6 +27,7 @@ export function UserProvider({ children }) {
     user,
     loading,
     setUserStateAndLocalStorage,
+    getUserFromLocalStorage,
   };
 
   return (

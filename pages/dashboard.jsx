@@ -1,15 +1,9 @@
 import React, { ReactNode, useState, useEffect } from "react";
-import PracticeView from "./views/Practice/PracticeView";
 import { useUser } from "../context/user";
-import RepView from "./views/Rep/RepView";
-import { usePage } from "../context/page";
-import { RepProvider } from "../context/rep";
-import { LogProvider } from "../context/log";
-import ClassroomView from "./views/Classroom/ClassroomView";
 import { useRouter } from "next/router";
+import DashboardView from "../components/views/Dashboard/DashboardView";
 
 import {
-  Button,
   useToast,
   IconButton,
   Avatar,
@@ -34,7 +28,6 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
-  Spacer,
 } from "@chakra-ui/react";
 import {
   FiHome,
@@ -50,67 +43,49 @@ import { IoIosMusicalNotes } from "react-icons/io";
 import { MdClass } from "react-icons/md";
 import { GiPianoKeys } from "react-icons/gi";
 
-const LinkItems = [
-  { name: "Practice", icon: GiPianoKeys },
-  { name: "Repertoire", icon: IoIosMusicalNotes },
-  { name: "Classroom", icon: MdClass },
-];
+const LinkItems = [{ name: "Go Home", icon: GiPianoKeys }];
 
-export default function SidebarWithHeader({ children }) {
-  const { page } = usePage();
-  const { user } = useUser();
+export default function Dashboard({ children }) {
+  const { user, getUserFromLocalStorage } = useUser();
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const dynamicPageSwitch = () => {
-    switch (page) {
-      case "Practice":
-        return <PracticeView />;
-      case "Repertoire":
-        return <RepView />;
-      case "Classroom":
-        return <ClassroomView />;
-      case "Settings":
-        return <Text>Settings</Text>;
-    }
-  };
+  // useEffect(() => {
+  //   if (user === null) {
+  //     getUserFromLocalStorage();
+  //   }
+  // }, []);
 
   return (
-    <LogProvider>
-      <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
-        <SidebarContent
-          onClose={() => onClose}
-          display={{ base: "none", md: "block" }}
-        />
-        <Drawer
-          autoFocus={false}
-          isOpen={isOpen}
-          placement="left"
-          onClose={onClose}
-          returnFocusOnClose={false}
-          onOverlayClick={onClose}
-          size="full"
-        >
-          <DrawerContent>
-            <SidebarContent onClose={onClose} />
-          </DrawerContent>
-        </Drawer>
-        {/* mobilenav */}
-        <MobileNav onOpen={onOpen} />
-        <RepProvider>
-          <Box ml={{ base: 0, md: 60 }} p="4">
-            <Box mt={{ base: "100", md: "0" }}>{dynamicPageSwitch()}</Box>
-          </Box>
-        </RepProvider>
+    <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
+      <SidebarContent
+        onClose={() => onClose}
+        display={{ base: "none", md: "block" }}
+      />
+      <Drawer
+        autoFocus={false}
+        isOpen={isOpen}
+        placement="left"
+        onClose={onClose}
+        returnFocusOnClose={false}
+        onOverlayClick={onClose}
+        size="full"
+      >
+        <DrawerContent>
+          <SidebarContent onClose={onClose} />
+        </DrawerContent>
+      </Drawer>
+      {/* mobilenav */}
+      <MobileNav onOpen={onOpen} />
+      <Box ml={{ base: 0, md: 60 }} p="4">
+        <Box mt={{ base: "100", md: "0" }}>
+          <DashboardView />
+        </Box>
       </Box>
-    </LogProvider>
+    </Box>
   );
 }
 
 const SidebarContent = ({ onClose, ...rest }) => {
-  const toast = useToast();
   const router = useRouter();
-  const { user } = useUser();
-  const { setPage } = usePage();
   return (
     <Box
       transition="3s ease"
@@ -123,8 +98,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" color="blue.500" fontWeight="bold">
-          LogThis
+        <Text fontSize="2xl" color="blue.700" fontWeight="bold">
+          Teacher Dashboard
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
@@ -132,7 +107,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <NavItem
           onClick={(e) => {
             onClose();
-            setPage(link.name);
+            router.push("/");
           }}
           key={link.name}
           icon={link.icon}
@@ -141,36 +116,11 @@ const SidebarContent = ({ onClose, ...rest }) => {
           {link.name}
         </NavItem>
       ))}
-      <Spacer />
-      <Button
-        color="teal.500"
-        position={"fixed"}
-        bottom={0}
-        p={1}
-        variant="ghost"
-        onClick={() => {
-          console.log(user.role);
-          if (user.role !== "teacher") {
-            // alert("You are not authorized to access this page");
-            toast({
-              title: "You are not authorized to access this page.",
-              status: "error",
-              duration: 4000,
-              isClosable: true,
-            });
-          } else {
-            router.push("/dashboard");
-          }
-        }}
-      >
-        Teacher Dashboard
-      </Button>
     </Box>
   );
 };
 
 const NavItem = ({ icon, children, ...rest }) => {
-  const { page } = usePage();
   return (
     <Link
       href="#"
@@ -183,8 +133,8 @@ const NavItem = ({ icon, children, ...rest }) => {
         mx="4"
         borderRadius="lg"
         role="group"
-        bg={children === page && "blue.500"}
-        color={children === page && "white"}
+        bg={"blue.700"}
+        color={"white"}
         cursor="pointer"
         transition="0.3s ease"
         _hover={{
@@ -261,11 +211,11 @@ const MobileNav = ({ onOpen, ...rest }) => {
 
       <Text
         display={{ base: "flex", md: "none" }}
-        color="blue.500"
-        fontSize="2xl"
+        color="blue.700"
+        fontSize="lg"
         fontWeight="bold"
       >
-        LogThis
+        Teacher Dashboard
       </Text>
 
       <HStack spacing={{ base: "0", md: "6" }}>
@@ -290,9 +240,9 @@ const MobileNav = ({ onOpen, ...rest }) => {
                   spacing="1px"
                   ml="2"
                 >
-                  <Text fontSize="sm">{user.firstName}</Text>
+                  <Text fontSize="sm">{user?.firstName}</Text>
                   <Text fontSize="xs" color="gray.600">
-                    {user.role}
+                    {user?.role}
                   </Text>
                 </VStack>
                 <Box display={{ base: "none", md: "flex" }}>
@@ -306,7 +256,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
             >
               <Center my={5}>
                 <Heading size="md" color="black">
-                  {user.firstName + " " + user.lastName}
+                  {user?.firstName + " " + user?.lastName}
                 </Heading>
               </Center>
               <MenuItem

@@ -5,11 +5,11 @@ import { UserProvider } from "../context/user";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider>
-      <UserProvider>
+    <UserProvider>
+      <ChakraProvider>
         <Component {...pageProps} />
-      </UserProvider>
-    </ChakraProvider>
+      </ChakraProvider>
+    </UserProvider>
   );
 }
 
