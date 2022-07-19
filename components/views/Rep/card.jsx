@@ -34,7 +34,7 @@ export default function PieceCard({ piece }) {
         <Text fontWeight={600} color={"gray.500"} mb={4}>
           {piece.composer}
         </Text>
-        <Heading fontSize={"xl"} fontFamily={"body"} color="purple.300">
+        <Heading fontSize={"xl"} fontFamily={"body"} color="purple.600">
           {piece.minutesPracticed === undefined ? 0 : piece.minutesPracticed}{" "}
           minutes practiced
         </Heading>
@@ -57,7 +57,7 @@ export default function PieceCard({ piece }) {
             flex={1}
             fontSize={"sm"}
             rounded={"full"}
-            bg={"green.300"}
+            bg={"blue.300"}
             color="white"
             onClick={() => setPage("Practice")}
           >
