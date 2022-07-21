@@ -10,7 +10,12 @@ export default async function handler(req, res) {
 
   // post to
   const url = "https://mt22-server.herokuapp.com/api/classrooms/create";
-  if (email === "" || ownerID === "" || firstName === "" || lastName === "") {
+  if (
+    typeof email == undefined ||
+    typeof ownerID == undefined ||
+    typeof firstName == undefined ||
+    typeof lastName == null
+  ) {
     // res status error
     res.status(400).json({ message: "Missing required fields" });
     return;

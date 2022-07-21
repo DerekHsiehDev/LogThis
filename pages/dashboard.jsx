@@ -2,6 +2,7 @@ import React, { ReactNode, useState, useEffect } from "react";
 import { useUser } from "../context/user";
 import { useRouter } from "next/router";
 import DashboardView from "../components/views/Dashboard/DashboardView";
+import axios from "axios";
 
 import {
   useToast,
@@ -42,17 +43,67 @@ import {
 import { IoIosMusicalNotes } from "react-icons/io";
 import { MdClass } from "react-icons/md";
 import { GiPianoKeys } from "react-icons/gi";
+import { UserProvider } from "../context/user";
 
 const LinkItems = [{ name: "Go Home", icon: GiPianoKeys }];
 
 export default function Dashboard({ children }) {
   const { user, getUserFromLocalStorage } = useUser();
+  const [code, setCode] = useState("");
+  const [students, setStudents] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   // useEffect(() => {
   //   if (user === null) {
   //     getUserFromLocalStorage();
   //   }
   // }, []);
+  const getClassroomStatus = () => {
+    if (user) {
+      axios
+        .post("/api/create-classroom", {
+          ownerID: user._id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+        })
+        .then((res) => {
+          console.log(res.data.message);
+          console.log(res.data.classroom);
+          setCode(res.data.classroom._id);
+          console.log(code);
+        })
+        .catch((err) => {
+          // console.log(err.response.data.message);
+          // already owns
+          console.log(err.response.data.code);
+          setCode(err.response.data.code._id);
+          console.log(code);
+
+          // get students inside
+          getStudentData(err.response.data.code._id);
+        });
+    }
+  };
+
+  const getStudentData = (classroomID) => {
+    axios
+      .get(`/api/get-classroom-students?classroomID=${classroomID}`)
+      .then((res) => {
+        setStudents(res.data.practiceLogs);
+
+        console.log(students);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  };
+
+  useEffect(() => {
+    // run api
+    getClassroomStatus();
+
+    // get students
+  }, [user]);
 
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
@@ -77,7 +128,7 @@ export default function Dashboard({ children }) {
       <MobileNav onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="4">
         <Box mt={{ base: "100", md: "0" }}>
-          <DashboardView />
+          <DashboardView code={code} students={students} />
         </Box>
       </Box>
     </Box>
@@ -171,6 +222,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
       position: "top",
     });
   };
+  const router = useRouter();
 
   return (
     <Flex
@@ -263,6 +315,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
                 onClick={() => {
                   setUserStateAndLocalStorage(null);
                   showToast();
+                  router.push("/");
                 }}
                 color={"red.500"}
               >
