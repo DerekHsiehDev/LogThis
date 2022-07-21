@@ -107,7 +107,7 @@ function Auth() {
         <div className="bg-white rounded-2xl shadow-2xl flex w-100vh md:w-2/3 max-w-5xl">
           <div className="md:w-3/5 p-5">
             <div className="text-left font-bold">
-              <span className="text-blue-500">LogIt</span>
+              <span className="text-blue-500">LogThis</span>
             </div>
             <div className="py-10 min-w-full">
               <h2 className="text-3xl font-bold text-blue-500">Sign in</h2>

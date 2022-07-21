@@ -142,29 +142,31 @@ const SidebarContent = ({ onClose, ...rest }) => {
         </NavItem>
       ))}
       <Spacer />
-      <Button
-        color="teal.500"
-        position={"fixed"}
-        bottom={0}
-        p={1}
-        variant="ghost"
-        onClick={() => {
-          console.log(user.role);
-          if (user.role !== "teacher") {
-            // alert("You are not authorized to access this page");
-            toast({
-              title: "You are not authorized to access this page.",
-              status: "error",
-              duration: 4000,
-              isClosable: true,
-            });
-          } else {
-            router.push("/dashboard");
-          }
-        }}
-      >
-        Teacher Dashboard
-      </Button>
+      {user?.role === "teacher" && (
+        <Button
+          color="teal.500"
+          position={"fixed"}
+          bottom={0}
+          p={1}
+          variant="ghost"
+          onClick={() => {
+            console.log(user.role);
+            if (user.role !== "teacher") {
+              // alert("You are not authorized to access this page");
+              toast({
+                title: "You are not authorized to access this page.",
+                status: "error",
+                duration: 4000,
+                isClosable: true,
+              });
+            } else {
+              router.push("/dashboard");
+            }
+          }}
+        >
+          Teacher Dashboard
+        </Button>
+      )}
     </Box>
   );
 };
