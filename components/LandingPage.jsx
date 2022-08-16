@@ -9,7 +9,13 @@ function LandingPage() {
   useEffect(() => {
 
       if (user === null && loading === false) {
-        window.location.replace("https://mt-landing-tau.vercel.app");
+        const noredirect = queryParams.get("noredirect")
+        if(noredirect == true) {
+          router.push("/")
+        } else {
+          window.location.replace("https://mt-landing-tau.vercel.app");
+        }
+        
       } else {
         router.push("/");
       }
