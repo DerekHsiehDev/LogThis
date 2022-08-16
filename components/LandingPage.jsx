@@ -8,7 +8,7 @@ function LandingPage() {
   const router = useRouter();
   useEffect(() => {
 
-      if (user === null && loading === false) {
+      if (user === null) {
         const noredirect = queryParams.get("noredirect")
         if(noredirect == true) {
           router.push("/")
