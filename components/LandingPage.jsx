@@ -7,14 +7,13 @@ function LandingPage() {
   const { user, loading } = useUser();
   const router = useRouter();
   useEffect(() => {
-    setTimeout(() => {
+
       if (user === null && loading === false) {
         window.location.replace("https://mt-landing-tau.vercel.app");
       } else {
         router.push("/");
       }
-    }, 3000);
-  });
+  },[user]);
   return (
     <Center>
       <Spinner />
