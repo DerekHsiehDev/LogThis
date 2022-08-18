@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   };
 
   // post to
-  const url = "https://mt22-server.herokuapp.com/api/users/create";
+  const url = "https://mt22-server.herokuapp.com/api/users/create-teacher";
   if (email === "" || password === "" || firstName === "" || lastName === "") {
     // res status error
     res.status(400).json({ message: "Missing required fields" });

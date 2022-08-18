@@ -19,15 +19,16 @@ const initialInputValues = {
 function Auth() {
   const router = useRouter();
   const { user, setUser, setUserStateAndLocalStorage } = useUser();
+  const [isTeacher, setIsTeacher] = useState(false)
 
   useEffect(() => {
     // set timeout for 0.25 seconds
     const signedInUser = localStorage.getItem("user");
     console.log(signedInUser);
     if (signedInUser) {
-      // router.push("/");
+      router.push("/");
     }
-  }, []);
+  }, [user]);
 
   // useEffect(() => {
   //   console.log(`USER IS ${user}`);
@@ -66,9 +67,14 @@ function Auth() {
   };
 
   const createNewUser = async (e) => {
+
+
     e.preventDefault();
+
+
+
     await axios
-      .post("api/create-user", {
+      .post(`api/create-${isTeacher ? "teacher" : "user"}`, {
         email: values.email,
         password: values.password,
         firstName: values.firstName,
@@ -143,6 +149,7 @@ function Auth() {
               >
                 Login
               </button>
+
             </div>
           </div>
           <div className="hidden md:block w-2/5 bg-blue-500 text-white rounded-tr-2xl rounded-br-2xl py-36 px-12">
@@ -171,10 +178,10 @@ function Auth() {
         <div className="bg-blue-500 rounded-2xl shadow-2xl flex w-100vh md:w-2/3 max-w-5xl">
           <div className="md:w-3/5 p-5">
             <div className="text-left font-bold">
-              <span className="text-white">Company</span>
+              <span className="text-white">LogThis</span>
             </div>
             <div className="py-10 min-w-full">
-              <h2 className="text-3xl font-bold text-white">Sign up</h2>
+              <h2 className="text-3xl font-bold text-white">{isTeacher ? "Teacher " : "Student "} Sign up</h2>
               <div className="border-2 w-10 border-blue-500 inline-block mb-2"></div>
 
               <div className="flex flex-col item-center align-items">
@@ -227,6 +234,7 @@ function Auth() {
               >
                 Create Account
               </button>
+              <h1 className="mt-5 font-bold text-white hover:text-blue-300" onClick={() => setIsTeacher(!isTeacher)}>{isTeacher ? "I'm a student!" : "Are you a teacher?"}</h1>
             </div>
           </div>
           <div className="hidden md:block w-2/5 bg-white text-blue-500 rounded-tr-2xl rounded-br-2xl py-36 px-12">
