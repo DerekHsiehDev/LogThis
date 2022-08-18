@@ -23,7 +23,6 @@ function Auth() {
 
   useEffect(() => {
     // set timeout for 0.25 seconds
-    console.log(signedInUser);
     if (user) {
       router.push("/");
     }
