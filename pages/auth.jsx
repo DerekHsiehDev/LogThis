@@ -23,9 +23,8 @@ function Auth() {
 
   useEffect(() => {
     // set timeout for 0.25 seconds
-    const signedInUser = localStorage.getItem("user");
     console.log(signedInUser);
-    if (signedInUser) {
+    if (user) {
       router.push("/");
     }
   }, [user]);
